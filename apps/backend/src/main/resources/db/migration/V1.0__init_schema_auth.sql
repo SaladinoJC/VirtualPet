@@ -118,7 +118,7 @@ CREATE TABLE auth.addresses (
 	is_default		BOOLEAN			NOT NULL DEFAULT FALSE,
 	
 	CONSTRAINT pk_addresses PRIMARY KEY (id),
-    CONSTRAINT fk_addresses_user FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_addresses_user FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 
