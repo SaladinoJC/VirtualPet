@@ -2,10 +2,10 @@
 
 Listado de tareas pendientes para finalizar la implementación de la arquitectura y los requerimientos de negocio, basado en el contexto del proyecto.
 
-## 🛠️ Deuda Técnica (Prioridad Alta)
+## Deuda Técnica (Prioridad Alta)
 - [ ] **Refactorizar Entidad de Usuario (Auth):** Actualizar `UserEntity.java` y `AuthService.java` para que coincidan con los scripts finales de la base de datos PostgreSQL (`V1.0__init_schema_auth.sql`). Las propiedades de nombre y domicilio deben guardarse correctamente en las tablas `customers` y `addresses`, eliminando la dependencia temporal de `ddl-auto=update` que ensucia la tabla de `users`.
 
-## 🖥️ Frontend (Next.js)
+## Frontend (Next.js)
 
 ### Storefront (Marketplace)
 - [ ] **Mi Cuenta (Seguimiento):** Desarrollar y conectar las interfaces del historial de compras y visualización del estado logístico del envío para los clientes.
@@ -18,7 +18,7 @@ Listado de tareas pendientes para finalizar la implementación de la arquitectur
   - Crear una tabla/listado en tiempo real de pedidos con estado "pagado" listos para armar.
   - Añadir botones de acción para avanzar el ciclo logístico ("Preparar", "En camino", "Entregado").
 
-## ⚙️ Backend (Spring Boot 3)
+## Backend (Spring Boot 3)
 
 ### Infraestructura y Datos
 - [ ] **Módulo de Carrito (Redis):** 
