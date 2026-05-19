@@ -13,9 +13,10 @@ const MOCK_PRODUCTS: ProductDetail[] = [
     category: "Alimentos",
     petType: "Perro",
     variants: [
-      { id: "v1", sku: "SD-01", price: 1500, stock: 10, imageUrl: null, attributes: {}, linePrice: 1500 },
+      { id: "v1", sku: "SD-01", price: 1500, stock: 10, imageUrl: null, attributes: {} },
     ],
-    minPrice: 1500,
+    basePrice: 1500,
+    categorySlug: "alimentos",
   },
   {
     id: "prod-2",
@@ -26,9 +27,10 @@ const MOCK_PRODUCTS: ProductDetail[] = [
     category: "Higiene",
     petType: "Gato",
     variants: [
-      { id: "v2", sku: "GF-01", price: 900, stock: 20, imageUrl: null, attributes: {}, linePrice: 900 },
+      { id: "v2", sku: "GF-01", price: 900, stock: 20, imageUrl: null, attributes: {} },
     ],
-    minPrice: 900,
+    basePrice: 900,
+    categorySlug: "higiene",
   },
 ];
 
@@ -41,7 +43,10 @@ function toProductSummary(p: ProductDetail): ProductSummary {
     petType: p.petType,
     imageUrl: p.variants[0]?.imageUrl ?? null,
     description: p.description,
-    minPrice: p.minPrice,
+    basePrice: p.basePrice,
+    minPrice: p.basePrice,
+    categorySlug: p.categorySlug,
+    category: p.category,
   } as ProductSummary;
 }
 
@@ -55,7 +60,20 @@ async function list(query = ""): Promise<ProductPage> {
 
 async function facets(): Promise<CatalogFacets> {
   if (useMock) {
-    return { brands: ["SuperDog", "GatoFeliz"], categories: ["Alimentos", "Higiene"], petTypes: ["Perro", "Gato"] } as CatalogFacets;
+    return {
+      brands: [
+        { value: "superdog", label: "SuperDog", count: 1 },
+        { value: "gatofeliz", label: "GatoFeliz", count: 1 }
+      ],
+      categories: [
+        { id: "c1", name: "Alimentos", slug: "alimentos", productCount: 1 },
+        { id: "c2", name: "Higiene", slug: "higiene", productCount: 1 }
+      ],
+      petTypes: [
+        { value: "perro", label: "Perro", count: 1 },
+        { value: "gato", label: "Gato", count: 1 }
+      ]
+    } as unknown as CatalogFacets;
   }
   return api<CatalogFacets>("/api/v1/products/facets");
 }

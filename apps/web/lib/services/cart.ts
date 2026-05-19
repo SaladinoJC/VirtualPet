@@ -5,7 +5,7 @@ const useMock = process.env.NEXT_PUBLIC_USE_MOCK_SERVICES === "1";
 const STORAGE_KEY = "vp_mock_cart";
 
 function defaultCart(): Cart {
-  return { items: [], subtotal: 0 } as Cart;
+  return { items: [], subtotal: 0, itemCount: 0 } as Cart;
 }
 
 function isClient() {
