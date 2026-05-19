@@ -24,20 +24,16 @@ public class JwtService {
     public String generate(UUID userId, String email, String role) {
         Date now = new Date();
         return Jwts.builder()
-            .setSubject(userId.toString())
-            .claim("email", email)
-            .claim("role", role)
-            .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + expirationMs))
-            .signWith(key)
-            .compact();
+                .subject(userId.toString())
+                .claim("email", email)
+                .claim("role", role)
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + expirationMs))
+                .signWith(key)
+                .compact();
     }
 
     public Claims parse(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 }
