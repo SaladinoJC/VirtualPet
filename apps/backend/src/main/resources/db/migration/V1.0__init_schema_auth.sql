@@ -8,6 +8,9 @@
 -- =============================================================================
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";   -- gen_random_uuid()
 CREATE EXTENSION IF NOT EXISTS "unaccent";   -- búsqueda sin tildes
+
+-- Forzamos a unaccent a ser inmutable para poder usarlo en columnas autogeneradas
+ALTER FUNCTION unaccent(text) IMMUTABLE;
 -- =============================================================================
 
 -- =============================================================================
@@ -30,7 +33,7 @@ CREATE TABLE auth.users (
     id              UUID          	NOT NULL DEFAULT gen_random_uuid(),
     email           VARCHAR(255)  	NOT NULL,
     password_hash   VARCHAR(255)  	NOT NULL,               -- bcrypt 
-	role            VARCHAR(30)   	NOT NULL DEFAULT 'ROLE_CLIENTE',
+	role            VARCHAR(30)   	NOT NULL DEFAULT 'ROLE_CUSTOMER',
     active          BOOLEAN       	NOT NULL DEFAULT TRUE,
     email_verified	BOOLEAN		  	NOT NULL DEFAULT FALSE,
     created_at      TIMESTAMPTZ  	NOT NULL DEFAULT NOW(),
@@ -38,7 +41,7 @@ CREATE TABLE auth.users (
     
     CONSTRAINT pk_users PRIMARY KEY (id),
     CONSTRAINT uq_user_email UNIQUE (email),
-    CONSTRAINT chk_user_role CHECK (role IN ('ROLE_CLIENTE', 'ROLE_EMPLEADO'))
+    CONSTRAINT chk_user_role CHECK (role IN ('ROLE_CUSTOMER', 'ROLE_EMPLOYEE','ROLE_ADMIN'))
 );
 
 
