@@ -1,6 +1,7 @@
 package com.virtualpet.backend.auth.domain;
 
 public enum UserRole {
-    CUSTOMER,
-    STAFF
+    ROLE_CUSTOMER,
+    ROLE_EMPLOYEE,
+    ROLE_ADMIN
 }
