@@ -23,12 +23,6 @@ FOR EACH ROW
 WHEN (OLD.* IS DISTINCT FROM NEW.*) -- Solo se ejecuta si realmente cambió algún dato
 EXECUTE FUNCTION auth.fn_actualizar_updated_at();
 
-CREATE TRIGGER trg_reset_tokens_updated_at
-BEFORE UPDATE ON auth.password_reset_tokens
-FOR EACH ROW
-WHEN (OLD.* IS DISTINCT FROM NEW.*)
-EXECUTE FUNCTION auth.fn_actualizar_updated_at();
-
 -- =============================================================================
 -- FUNCION/TRIGGER: Revocación de sesiones en cascada (Seguridad)
 -- Descripción: Actúa como barrera de seguridad de capa de datos. Si un usuario 
