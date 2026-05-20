@@ -1,11 +1,9 @@
 package com.virtualpet.backend.auth.service;
 
+import com.virtualpet.backend.auth.domain.CustomerEntity;
 import com.virtualpet.backend.auth.domain.UserEntity;
 import com.virtualpet.backend.auth.domain.UserRole;
-import com.virtualpet.backend.auth.dto.AuthDtos.AuthResponse;
-import com.virtualpet.backend.auth.dto.AuthDtos.LoginRequest;
-import com.virtualpet.backend.auth.dto.AuthDtos.RegisterRequest;
-import com.virtualpet.backend.auth.dto.AuthDtos.UserResponse;
+import com.virtualpet.backend.auth.dto.AuthDtos.*;
 import com.virtualpet.backend.auth.repository.UserRepository;
 import com.virtualpet.backend.shared.exception.ApiException;
 import com.virtualpet.backend.shared.security.JwtService;
@@ -30,18 +28,34 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
-    public AuthResponse register(RegisterRequest request) {
+    public AuthResponse registerCustomer(RegisterCustomerRequest request) {
         if (userRepository.existsByEmailIgnoreCase(request.email())) {
             throw new ApiException(HttpStatus.CONFLICT, "El email ya está registrado");
         }
-        UserEntity user = new UserEntity();
-        user.setId(UUID.randomUUID());
-        user.setEmail(request.email().toLowerCase());
-        user.setPasswordHash(passwordEncoder.encode(request.password()));
-        user.setRole(UserRole.CUSTOMER);
-        user.setName(request.name());
-        user.setAddress(request.address());
+
+        // 1. Armamos las credenciales (Tabla: users)
+        UserEntity user = UserEntity.builder()
+                .email(request.email().toLowerCase())
+                .passwordHash(passwordEncoder.encode(request.password()))
+                .role(UserRole.ROLE_CUSTOMER)
+                .active(true)
+                .emailVerified(false)
+                .build();
+
+        // 2. Armamos el perfil físico (Tabla: customers)
+        CustomerEntity customerProfile = CustomerEntity.builder()
+                .name(request.name())
+                .lastname(request.lastname())
+                .dni(request.dni())
+                .phone(request.phone())
+                .build();
+
+        // Vinculamos bidireccionalmente. JPA asignará el mismo ID automáticamente a customerProfile.
+        user.setCustomerProfile(customerProfile);
+
+        // Guardamos (impacta en users y customers por el Cascade)
         userRepository.save(user);
+
         return buildAuthResponse(user);
     }
 
@@ -72,11 +86,25 @@ public class AuthService {
     }
 
     private UserResponse toUserResponse(UserEntity user) {
+        // Extraemos el nombre y apellido verificando qué perfil tiene adjunto
+        String name = "";
+        String lastname = "";
+
+        if (user.getRole() == UserRole.ROLE_CUSTOMER && user.getCustomerProfile() != null) {
+            name = user.getCustomerProfile().getName();
+            lastname = user.getCustomerProfile().getLastname();
+        } else if (user.getRole() == UserRole.ROLE_EMPLOYEE && user.getEmployeeProfile() != null) {
+            name = user.getEmployeeProfile().getName();
+            lastname = user.getEmployeeProfile().getLastname();
+        }
+
         return new UserResponse(
                 user.getId().toString(),
                 user.getEmail(),
                 user.getRole().name(),
-                user.getName(),
-                user.getAddress());
+                name,
+                lastname,
+                user.getEmailVerified()
+        );
     }
 }
