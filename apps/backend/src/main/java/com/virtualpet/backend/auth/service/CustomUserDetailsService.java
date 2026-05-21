@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository
                 .findByEmailIgnoreCase(username)
                 .map(u -> new UserPrincipal(
+<<<<<<< Updated upstream
                         u.getId(),
                         u.getEmail(),
                         u.getPasswordHash(),
@@ -37,5 +38,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             return u.getEmployeeProfile().getName();
         }
         return "ROLE_ADMIN"; // Fallback para tu nuevo rol ADMIN
+=======
+                        u.getId(), u.getEmail(), u.getPasswordHash(), u.getRole().name()))
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+>>>>>>> Stashed changes
     }
 }

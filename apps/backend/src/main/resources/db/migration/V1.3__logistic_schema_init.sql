@@ -109,7 +109,7 @@ CREATE INDEX idx_shipments_order_id ON logistics.shipments (order_id);
 CREATE INDEX idx_shipments_status ON logistics.shipments (status);
 CREATE INDEX idx_shipments_warehouse ON logistics.shipments (warehouse_id);
 
-CREATE INDEX idx_shipment_history_id ON logistics.shipment_status_history (shipment_id);
+CREATE INDEX idx_shipment_history_id ON logistics.shipment_status (shipment_id);
 
 CREATE INDEX idx_shipment_attempts_id ON logistics.shipment_attempts (shipment_id);
 

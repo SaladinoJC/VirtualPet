@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,21 +30,12 @@ public class ProductEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "base_price", nullable = false)
-    private BigDecimal basePrice;
+    @Column(nullable = false)
+    private String brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
-
-    @Column(name = "pet_type", nullable = false)
-    private String petType;
-
-    @Column(nullable = false)
-    private String brand;
-
-    @Column(nullable = false, unique = true)
-    private String slug;
 
     @Column(nullable = false)
     private boolean active = true;

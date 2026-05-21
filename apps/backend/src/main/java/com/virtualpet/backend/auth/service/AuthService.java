@@ -101,10 +101,14 @@ public class AuthService {
         return new UserResponse(
                 user.getId().toString(),
                 user.getEmail(),
+<<<<<<< Updated upstream
                 user.getRole().name(),
                 name,
                 lastname,
                 user.getEmailVerified()
         );
+=======
+                user.getRole().name());
+>>>>>>> Stashed changes
     }
 }

@@ -15,14 +15,12 @@ public class UserPrincipal implements UserDetails {
     private final String email;
     private final String passwordHash;
     private final String role;
-    private final String name;
 
-    public UserPrincipal(UUID id, String email, String passwordHash, String role, String name) {
+    public UserPrincipal(UUID id, String email, String passwordHash, String role) {
         this.id = id;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
-        this.name = name;
     }
 
     @Override
@@ -38,25 +36,5 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getUsername() {
         return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }
