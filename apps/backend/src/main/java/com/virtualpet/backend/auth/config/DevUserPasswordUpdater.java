@@ -1,5 +1,6 @@
 package com.virtualpet.backend.auth.config;
 
+import com.virtualpet.backend.auth.domain.UserRole;
 import com.virtualpet.backend.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ public class DevUserPasswordUpdater implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         userRepository.findByEmailIgnoreCase("staff@virtualpet.local").ifPresent(u -> {
+            u.setRole(UserRole.ROLE_CUSTOMER);
             u.setPasswordHash(passwordEncoder.encode("staff123"));
             userRepository.save(u);
         });

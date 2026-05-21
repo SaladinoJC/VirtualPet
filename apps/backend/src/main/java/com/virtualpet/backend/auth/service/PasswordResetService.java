@@ -59,7 +59,6 @@ public class PasswordResetService {
 
         String tokenValue = UUID.randomUUID().toString().replace("-", "");
         PasswordResetTokenEntity token = new PasswordResetTokenEntity();
-        token.setId(UUID.randomUUID());
         token.setUser(user);
         token.setToken(tokenValue);
         token.setExpiresAt(Instant.now().plusSeconds(3600));
@@ -71,7 +70,7 @@ public class PasswordResetService {
 
     private void invalidateActiveTokens(UUID userId) {
         Instant now = Instant.now();
-        for (PasswordResetTokenEntity active : tokenRepository.findByUser_IdAndUsedAtIsNull(userId)) {
+        for (PasswordResetTokenEntity active : tokenRepository.findByUserIdAndUsedAtIsNull(userId)) {
             active.setUsedAt(now);
         }
     }

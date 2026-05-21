@@ -7,8 +7,6 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetTokenEntity, UUID> {
-
     Optional<PasswordResetTokenEntity> findByTokenAndUsedAtIsNull(String token);
-
-    List<PasswordResetTokenEntity> findByUser_IdAndUsedAtIsNull(UUID userId);
+    List<PasswordResetTokenEntity> findByUserIdAndUsedAtIsNull(UUID userId);
 }
