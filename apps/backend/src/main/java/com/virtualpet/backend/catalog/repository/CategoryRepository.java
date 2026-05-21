@@ -8,13 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, UUID> {
 
-    @Query(
-            """
+  @Query(
+      """
             SELECT c.id, c.name, c.slug, COUNT(p)
             FROM CategoryEntity c
             LEFT JOIN ProductEntity p ON p.category = c AND p.active = true
             GROUP BY c.id, c.name, c.slug
             ORDER BY c.name
             """)
-    List<Object[]> findAllWithProductCounts();
+  List<Object[]> findAllWithProductCounts();
 }

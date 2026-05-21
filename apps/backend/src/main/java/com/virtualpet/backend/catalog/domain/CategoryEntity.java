@@ -14,12 +14,11 @@ import lombok.Setter;
 @Setter
 public class CategoryEntity {
 
-    @Id
-    private UUID id;
+  @Id private UUID id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+  @Column(nullable = false, unique = true)
+  private String name;
 
-    @Column(nullable = false, unique = true)
-    private String slug;
+  @Column(nullable = false, unique = true)
+  private String slug;
 }

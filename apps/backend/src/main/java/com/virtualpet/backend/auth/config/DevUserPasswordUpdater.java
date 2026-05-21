@@ -14,20 +14,26 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DevUserPasswordUpdater implements ApplicationRunner {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public void run(ApplicationArguments args) {
-        userRepository.findByEmailIgnoreCase("staff@virtualpet.local").ifPresent(u -> {
-            u.setRole(UserRole.ROLE_CUSTOMER);
-            u.setPasswordHash(passwordEncoder.encode("staff123"));
-            userRepository.save(u);
-        });
-        userRepository.findByEmailIgnoreCase("cliente@demo.local").ifPresent(u -> {
-            u.setPasswordHash(passwordEncoder.encode("cliente123"));
-            userRepository.save(u);
-        });
-        log.info("Demo users ready: staff@virtualpet.local/staff123, cliente@demo.local/cliente123");
-    }
+  @Override
+  public void run(ApplicationArguments args) {
+    userRepository
+        .findByEmailIgnoreCase("staff@virtualpet.local")
+        .ifPresent(
+            u -> {
+              u.setRole(UserRole.ROLE_CUSTOMER);
+              u.setPasswordHash(passwordEncoder.encode("staff123"));
+              userRepository.save(u);
+            });
+    userRepository
+        .findByEmailIgnoreCase("cliente@demo.local")
+        .ifPresent(
+            u -> {
+              u.setPasswordHash(passwordEncoder.encode("cliente123"));
+              userRepository.save(u);
+            });
+    log.info("Demo users ready: staff@virtualpet.local/staff123, cliente@demo.local/cliente123");
+  }
 }

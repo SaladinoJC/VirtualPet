@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,37 +21,27 @@ import lombok.Setter;
 @Setter
 public class ProductEntity {
 
-    @Id
-    private UUID id;
+  @Id private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
+  @Column(nullable = false, columnDefinition = "TEXT")
+  private String description;
 
-    @Column(name = "base_price", nullable = false)
-    private BigDecimal basePrice;
+  @Column(nullable = false)
+  private String brand;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
-    private CategoryEntity category;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id", nullable = false)
+  private CategoryEntity category;
 
-    @Column(name = "pet_type", nullable = false)
-    private String petType;
+  @Column(nullable = false)
+  private boolean active = true;
 
-    @Column(nullable = false)
-    private String brand;
+  @Column(name = "created_at", nullable = false)
+  private Instant createdAt = Instant.now();
 
-    @Column(nullable = false, unique = true)
-    private String slug;
-
-    @Column(nullable = false)
-    private boolean active = true;
-
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt = Instant.now();
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<ProductVariantEntity> variants = new ArrayList<>();
+  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+  private List<ProductVariantEntity> variants = new ArrayList<>();
 }

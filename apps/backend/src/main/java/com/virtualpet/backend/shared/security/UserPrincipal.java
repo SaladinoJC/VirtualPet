@@ -11,52 +11,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 public class UserPrincipal implements UserDetails {
 
-    private final UUID id;
-    private final String email;
-    private final String passwordHash;
-    private final String role;
-    private final String name;
+  private final UUID id;
+  private final String email;
+  private final String passwordHash;
+  private final String role;
 
-    public UserPrincipal(UUID id, String email, String passwordHash, String role, String name) {
-        this.id = id;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.name = name;
-    }
+  public UserPrincipal(UUID id, String email, String passwordHash, String role) {
+    this.id = id;
+    this.email = email;
+    this.passwordHash = passwordHash;
+    this.role = role;
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+  }
 
-    @Override
-    public String getPassword() {
-        return passwordHash;
-    }
+  @Override
+  public String getPassword() {
+    return passwordHash;
+  }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public String getUsername() {
+    return email;
+  }
 }

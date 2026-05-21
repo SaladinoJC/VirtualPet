@@ -20,39 +20,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CatalogController {
 
-    private final CatalogService catalogService;
+  private final CatalogService catalogService;
 
-    @GetMapping("/products")
-    public ProductPageResponse list(
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String petType,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) String sort,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        return catalogService.list(q, category, petType, brand, minPrice, maxPrice, sort, page, size);
-    }
+  @GetMapping("/products")
+  public ProductPageResponse list(
+      @RequestParam(required = false) String q,
+      @RequestParam(required = false) String category,
+      @RequestParam(required = false) String petType,
+      @RequestParam(required = false) String brand,
+      @RequestParam(required = false) BigDecimal minPrice,
+      @RequestParam(required = false) BigDecimal maxPrice,
+      @RequestParam(required = false) String sort,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
+    return catalogService.list(q, category, petType, brand, minPrice, maxPrice, sort, page, size);
+  }
 
-    @GetMapping("/products/facets")
-    public CatalogFacetsResponse facets() {
-        return catalogService.getFacets();
-    }
+  @GetMapping("/products/facets")
+  public CatalogFacetsResponse facets() {
+    return catalogService.getFacets();
+  }
 
-    @GetMapping("/products/by-slug/{slug}")
-    public ProductDetailResponse getBySlug(@PathVariable String slug) {
-        return catalogService.getBySlug(slug);
-    }
+  @GetMapping("/products/by-slug/{slug}")
+  public ProductDetailResponse getBySlug(@PathVariable String slug) {
+    return catalogService.getBySlug(slug);
+  }
 
-    @GetMapping("/products/{id}")
-    public ProductDetailResponse get(@PathVariable UUID id) {
-        return catalogService.getById(id);
-    }
+  @GetMapping("/products/{id}")
+  public ProductDetailResponse get(@PathVariable UUID id) {
+    return catalogService.getById(id);
+  }
 
-    @GetMapping("/categories")
-    public List<CategoryResponse> categories() {
-        return catalogService.listCategories();
-    }
+  @GetMapping("/categories")
+  public List<CategoryResponse> categories() {
+    return catalogService.listCategories();
+  }
 }

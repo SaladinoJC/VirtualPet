@@ -3,7 +3,7 @@
 -- Descripción: Función propia del módulo de catálogo para mantener su
 -- independencia. Actualiza el campo updated_at al modificar registros.
 -- =============================================================================
-CREATE OR REPLACE FUNCTION catalogs.fn_actualizar_updated_at()
+CREATE OR REPLACE FUNCTION catalog.fn_actualizar_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
     NEW.updated_at = NOW();
@@ -16,7 +16,7 @@ $$ LANGUAGE plpgsql;
 -- =============================================================================
 
 CREATE TRIGGER trg_products_updated_at
-    BEFORE UPDATE ON catalogs.products
+    BEFORE UPDATE ON catalog.products
     FOR EACH ROW
     WHEN (OLD.* IS DISTINCT FROM NEW.*)
-EXECUTE FUNCTION catalogs.fn_actualizar_updated_at();
+EXECUTE FUNCTION catalog.fn_actualizar_updated_at();

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class VariantController {
 
-    private final CatalogService catalogService;
+  private final CatalogService catalogService;
 
-    @GetMapping("/by-sku/{sku}")
-    public VariantBySkuResponse getBySku(@PathVariable String sku) {
-        return catalogService.getVariantBySku(sku);
-    }
+  @GetMapping("/by-sku/{sku}")
+  public VariantBySkuResponse getBySku(@PathVariable String sku) {
+    return catalogService.getVariantBySku(sku);
+  }
 }
