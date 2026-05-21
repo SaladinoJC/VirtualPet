@@ -19,13 +19,47 @@ El proyecto se encuentra en fase de desarrollo activo. Actualmente contamos con:
 - **Frontend (`apps/web`):** Aplicación construida con **Next.js** (React, TypeScript). Rutas principales de catálogo, carrito, checkout, registro de usuarios y perfiles listas (algunas consumiendo servicios mockeados temporalmente).
 - **Backend (`apps/backend`):** API REST robusta construida con **Spring Boot 3 (Java 21)**. Incluye autenticación segura mediante **JWT**, persistencia con **Spring Data JPA** y control de versionado de esquemas automatizado con **Flyway**.
 - **Base de Datos:** Esquemas relacionales diseñados e implementados en **PostgreSQL** (`auth`, `catalog`, etc.).
-- **Infraestructura Local:** Entorno de desarrollo 100% Dockerizado. Mediante `docker-compose` se orquestan en conjunto la base de datos PostgreSQL, Redis y la API de Spring Boot.
+- **Infraestructura Local:** Entorno de desarrollo 100% Dockerizado. Mediante `docker compose` se orquestan en conjunto la base de datos PostgreSQL, Redis y la API de Spring Boot.
 
 ## Próximos Pasos (Arquitectura Cloud)
 Para alcanzar el objetivo de una arquitectura de producción escalable, falta finalizar la integración con los siguientes servicios (orientado a **AWS**):
 - **Bases de datos y caché en la nube** (e.g., RDS para PostgreSQL y ElastiCache para Redis).
 - **Almacenamiento Estático (Amazon S3):** Para el alojamiento de imágenes de productos y assets del ecommerce.
 - Refinamiento de la arquitectura de despliegue y servicios de envío de emails/notificaciones.
+
+---
+
+## API Endpoints
+
+Base URL: `http://localhost:8080`
+
+### Auth — `/api/v1/auth`
+
+| Método | Ruta | Descripción | Auth |
+|--------|------|-------------|------|
+| `POST` | `/api/v1/auth/register` | Registro de cliente | No |
+| `POST` | `/api/v1/auth/login` | Login — devuelve JWT y refresh token | No |
+| `GET`  | `/api/v1/auth/me` | Datos del usuario autenticado | JWT |
+| `POST` | `/api/v1/auth/forgot-password` | Solicitar reset de contraseña por email | No |
+| `POST` | `/api/v1/auth/reset-password` | Resetear contraseña con token | No |
+| `POST` | `/api/v1/auth/refresh` | Renovar JWT usando el refresh token | No |
+
+### Catálogo — `/api/v1`
+
+| Método | Ruta | Descripción | Auth |
+|--------|------|-------------|------|
+| `GET` | `/api/v1/products` | Listar productos con filtros y paginación (`q`, `category`, `petType`, `brand`, `minPrice`, `maxPrice`, `sort`, `page`, `size`) | No |
+| `GET` | `/api/v1/products/facets` | Obtener facetas disponibles del catálogo | No |
+| `GET` | `/api/v1/products/by-slug/{slug}` | Obtener producto por slug | No |
+| `GET` | `/api/v1/products/{id}` | Obtener producto por ID (UUID) | No |
+| `GET` | `/api/v1/categories` | Listar categorías | No |
+| `GET` | `/api/v1/variants/by-sku/{sku}` | Obtener variante por SKU | No |
+
+### Utilidades
+
+| Método | Ruta | Descripción | Auth |
+|--------|------|-------------|------|
+| `GET` | `/api/v1/ping` | Health check — devuelve `pong` | No |
 
 ---
 

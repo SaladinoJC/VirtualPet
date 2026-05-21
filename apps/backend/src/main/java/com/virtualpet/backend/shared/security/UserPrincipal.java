@@ -11,30 +11,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 public class UserPrincipal implements UserDetails {
 
-    private final UUID id;
-    private final String email;
-    private final String passwordHash;
-    private final String role;
+  private final UUID id;
+  private final String email;
+  private final String passwordHash;
+  private final String role;
 
-    public UserPrincipal(UUID id, String email, String passwordHash, String role) {
-        this.id = id;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-    }
+  public UserPrincipal(UUID id, String email, String passwordHash, String role) {
+    this.id = id;
+    this.email = email;
+    this.passwordHash = passwordHash;
+    this.role = role;
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+  }
 
-    @Override
-    public String getPassword() {
-        return passwordHash;
-    }
+  @Override
+  public String getPassword() {
+    return passwordHash;
+  }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+  @Override
+  public String getUsername() {
+    return email;
+  }
 }

@@ -13,24 +13,24 @@ import org.springframework.util.StringUtils;
 @Slf4j
 public class PasswordResetMailService {
 
-    private final JavaMailSender mailSender;
-    private final VirtualPetProperties properties;
+  private final JavaMailSender mailSender;
+  private final VirtualPetProperties properties;
 
-    public void sendResetLink(String toEmail, String resetUrl) {
-        if (!isMailConfigured()) {
-            log.warn(
-                    "Gmail no configurado (GMAIL_USERNAME / GMAIL_APP_PASSWORD). Link de recuperación para {}: {}",
-                    toEmail,
-                    resetUrl);
-            return;
-        }
+  public void sendResetLink(String toEmail, String resetUrl) {
+    if (!isMailConfigured()) {
+      log.warn(
+          "Gmail no configurado (GMAIL_USERNAME / GMAIL_APP_PASSWORD). Link de recuperación para {}: {}",
+          toEmail,
+          resetUrl);
+      return;
+    }
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(properties.getMail().getFrom());
-        message.setTo(toEmail);
-        message.setSubject("Virtual Pet — Restablecer contraseña");
-        message.setText(
-                """
+    SimpleMailMessage message = new SimpleMailMessage();
+    message.setFrom(properties.getMail().getFrom());
+    message.setTo(toEmail);
+    message.setSubject("Virtual Pet — Restablecer contraseña");
+    message.setText(
+        """
                 Hola,
 
                 Recibimos una solicitud para restablecer tu contraseña en Virtual Pet.
@@ -42,13 +42,13 @@ public class PasswordResetMailService {
 
                 Virtual Pet — Mar del Plata
                 """
-                        .formatted(resetUrl));
+            .formatted(resetUrl));
 
-        mailSender.send(message);
-    }
+    mailSender.send(message);
+  }
 
-    private boolean isMailConfigured() {
-        VirtualPetProperties.Mail mail = properties.getMail();
-        return StringUtils.hasText(mail.getFrom());
-    }
+  private boolean isMailConfigured() {
+    VirtualPetProperties.Mail mail = properties.getMail();
+    return StringUtils.hasText(mail.getFrom());
+  }
 }
